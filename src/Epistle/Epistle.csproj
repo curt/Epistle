@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Epistle.ActivityPub" Version="0.0.0-alpha.1.g63f321f19a" />
+    <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
   </ItemGroup>
 
 </Project>

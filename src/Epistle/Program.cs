@@ -1,4 +1,23 @@
+using MongoDB.Bson.Serialization.Conventions;
+using Epistle.Models;
+using Epistle.Services;
+
+// Register MongoDB BSON conventions.
+ConventionRegistry.Register(
+    "EpistleBsonMappingConventions",
+    new ConventionPack {
+                new CamelCaseElementNameConvention(),
+                new IgnoreIfNullConvention(true)
+    },
+    t => t.FullName!.StartsWith("Epistle.ActivityPub.")
+);
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<DocumentDatabaseSettings>(
+    builder.Configuration.GetSection("DocumentDatabase")
+)
+.AddSingleton<DocumentService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
