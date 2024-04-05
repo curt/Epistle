@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<DocumentDatabaseSettings>(
     builder.Configuration.GetSection("DocumentDatabase")
 )
-.AddSingleton<DocumentService>();
+.AddScoped<IDocumentService, DocumentService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -4,17 +4,8 @@ using Epistle.Services;
 namespace Epistle.Controllers;
 
 [Route("m")]
-public class MissiveController : Controller
+public class MissiveController(IDocumentService documents) : Controller
 {
-    private readonly ILogger<MissiveController> _logger;
-    private readonly DocumentService _documents;
-
-    public MissiveController(ILogger<MissiveController> logger, DocumentService documents)
-    {
-        _logger = logger;
-        _documents = documents;
-    }
-
     public IActionResult Index()
     {
         return View();
@@ -28,7 +19,7 @@ public class MissiveController : Controller
             Path = Request.Path
         };
 
-        var obj = await _documents.GetObjectAsync(uri.Uri);
+        var obj = await documents.GetObjectAsync(uri.Uri);
 
         if (obj is null)
             return NotFound();

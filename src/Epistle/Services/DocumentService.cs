@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace Epistle.Services;
 
-public class DocumentService
+public class DocumentService : IDocumentService
 {
     private IMongoCollection<ActivityPub.Object> ObjectsCollection { get; }
 
