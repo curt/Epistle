@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Http.Extensions
 @model Epistle.ActivityPub.Object
 
 <div>
@@ -5,4 +6,7 @@
 </div>
 <div>
     @Model.Published
+</div>
+<div>
+    @Model.Id?.ToPublicUri(Context.Request.GetDisplayUrl())
 </div>
