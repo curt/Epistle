@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Epistle.Services;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Epistle.Controllers;
 
@@ -14,15 +15,13 @@ public class MissiveController(IDocumentService documents) : Controller
     [Route("{id:regex(^[[1-9A-Za-z]]+$)}")]
     public async Task<IActionResult> Get(string id)
     {
-        var uri = new UriBuilder("http", "internal")
-        {
-            Path = Request.Path
-        };
-
-        var obj = await documents.GetObjectAsync(uri.Uri);
+        var uri = Request.ToInternalUri();
+        var obj = await documents.GetObjectAsync(uri);
 
         if (obj is null)
             return NotFound();
+
+        obj = obj.Publicize(Request.ToEndpoint());
 
         return View(obj);
     }
