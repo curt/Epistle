@@ -1,11 +1,12 @@
 @using Microsoft.AspNetCore.Http.Extensions
+@using System.Globalization
 @model Epistle.ActivityPub.Object
 
 <div>
     @Model.Content
 </div>
 <div>
-    @Model.Published
+    @Model.Published?.ToString("u", CultureInfo.InvariantCulture)
 </div>
 <div>
     @Model.Id

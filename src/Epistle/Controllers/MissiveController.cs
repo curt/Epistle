@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Epistle.Services;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Epistle.Controllers;
 
 [Route("m")]
-public class MissiveController(IDocumentService documents) : Controller
+public class MissiveController(IDocumentService documents) : BaseController
 {
     public IActionResult Index()
     {
@@ -23,6 +22,6 @@ public class MissiveController(IDocumentService documents) : Controller
 
         obj = obj.Publicize(Request.ToEndpoint());
 
-        return View(obj);
+        return Contextualize(() => View(obj), () => Json(Contextify(obj)));
     }
 }
