@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
 using MongoDB.Bson.Serialization.Conventions;
 using Epistle.Models;
 using Epistle.Services;
+using System.Text.Json.Serialization;
+using Epistle;
 
 // Register MongoDB BSON conventions.
 ConventionRegistry.Register(
@@ -20,7 +23,25 @@ builder.Services.Configure<DocumentDatabaseSettings>(
 .AddScoped<IDocumentService, DocumentService>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews
+(options =>
+    {
+        // See https://stackoverflow.com/a/59813295
+        var jsonInputFormatter = options.InputFormatters
+            .OfType<SystemTextJsonInputFormatter>()
+            .Single();
+
+        jsonInputFormatter.SupportedMediaTypes.Add("application/ld+json");
+        jsonInputFormatter.SupportedMediaTypes.Add("application/activity+json");
+    }
+)
+.AddJsonOptions
+(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.JsonSerializerOptions.TypeInfoResolver = new AlphabeticalOrderJsonTypeInfoResolver();
+    }
+);
 
 var app = builder.Build();
 
