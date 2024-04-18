@@ -15,13 +15,8 @@ public class MissiveController(IDocumentService documents) : BaseController
     public async Task<IActionResult> Get(string id)
     {
         var uri = Request.ToInternalUri();
-        var obj = await documents.GetObjectAsync(uri);
+        var model = await documents.GetObjectAsync(uri);
 
-        if (obj is null)
-            return NotFound();
-
-        obj = obj.Publicize(Request.ToEndpoint());
-
-        return Contextualize(() => View(obj), () => Json(Contextify(obj)));
+        return Contextualize(model);
     }
 }

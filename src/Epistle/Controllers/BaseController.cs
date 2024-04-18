@@ -11,6 +11,16 @@ public class BaseController : Controller
         "application/json"
     ];
 
+    protected IActionResult Contextualize(ActivityPub.Object model)
+    {
+        if (model is null)
+            return NotFound();
+
+        model = model.Publicize(Request.ToEndpoint());
+
+        return Contextualize(() => View(model), () => Json(Contextify(model)));
+    }
+
     protected IActionResult Contextualize(Func<IActionResult> html, Func<IActionResult> json)
     {
         var acceptHeaders = Request.GetTypedHeaders().Accept;
