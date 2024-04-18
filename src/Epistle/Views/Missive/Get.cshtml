@@ -3,11 +3,10 @@
 @model Epistle.ActivityPub.Object
 
 <div>
-    @Model.Content
+    @Html.Raw(Model.Content)
 </div>
+<hr>
 <div>
-    @Model.Published?.ToString("u", CultureInfo.InvariantCulture)
-</div>
-<div>
-    @Model.Id
+    @Model.Published?.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture) | <a asp-controller="Home"
+        asp-action="Index">Home</a>
 </div>
