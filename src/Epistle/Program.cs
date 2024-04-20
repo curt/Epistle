@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using MongoDB.Bson.Serialization.Conventions;
 using Epistle.Models;
 using Epistle.Services;
 using System.Text.Json.Serialization;
 using Epistle;
+using Microsoft.Extensions.FileProviders;
+using System.Reflection;
 
 // Register MongoDB BSON conventions.
 ConventionRegistry.Register(
@@ -17,6 +20,14 @@ ConventionRegistry.Register(
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<MvcRazorRuntimeCompilationOptions>
+(
+    options =>
+    {
+        options.FileProviders.Insert(0, new EmbeddedFileProvider(Assembly.Load("Epistle.Theme.Default")));
+    }
+);
+
 builder.Services.Configure<DocumentDatabaseSettings>(
     builder.Configuration.GetSection("DocumentDatabase")
 )
@@ -24,7 +35,8 @@ builder.Services.Configure<DocumentDatabaseSettings>(
 
 // Add services to the container.
 builder.Services.AddControllersWithViews
-(options =>
+(
+    options =>
     {
         // See https://stackoverflow.com/a/59813295
         var jsonInputFormatter = options.InputFormatters
@@ -36,7 +48,8 @@ builder.Services.AddControllersWithViews
     }
 )
 .AddJsonOptions
-(options =>
+(
+    options =>
     {
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         options.JsonSerializerOptions.TypeInfoResolver = new AlphabeticalOrderJsonTypeInfoResolver();
