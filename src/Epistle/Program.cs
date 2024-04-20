@@ -29,7 +29,7 @@ builder.Services.Configure<MvcRazorRuntimeCompilationOptions>
     }
 );
 
-builder.Services.AddScoped<IMongoDbRepository, MongoDbRepository>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 // Add services to the container.
