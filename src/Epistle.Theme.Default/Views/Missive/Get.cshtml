@@ -3,7 +3,7 @@
 @model Epistle.ActivityPub.Object
 
 <div>
-    @if(Model.Name is not null) 
+    @if (Model.Name is not null)
     {
         <h1>@Model.Name</h1>
     }
@@ -11,6 +11,6 @@
 </div>
 <hr>
 <div>
-    @Model.Published?.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture) | <a asp-controller="Home"
-        asp-action="Index">Home</a>
+    @Model.Published?.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture)
+    | <a asp-controller="Home" asp-action="Index">Home</a>
 </div>
