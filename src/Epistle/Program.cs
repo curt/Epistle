@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using Epistle;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
+using Epistle.Repositories;
 
 // Register MongoDB BSON conventions.
 ConventionRegistry.Register(
@@ -28,10 +29,8 @@ builder.Services.Configure<MvcRazorRuntimeCompilationOptions>
     }
 );
 
-builder.Services.Configure<DocumentDatabaseSettings>(
-    builder.Configuration.GetSection("DocumentDatabase")
-)
-.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddScoped<IMongoDbRepository, MongoDbRepository>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews

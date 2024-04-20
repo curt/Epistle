@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Epistle.ActivityPub;
 
+using Object = Epistle.ActivityPub.Object;
+
 namespace Epistle.Controllers;
 
 public class BaseController : Controller
@@ -11,7 +13,7 @@ public class BaseController : Controller
         "application/json"
     ];
 
-    protected IActionResult Contextualize(ActivityPub.Object model)
+    protected IActionResult Contextualize(Object? model)
     {
         if (model is null)
             return NotFound();

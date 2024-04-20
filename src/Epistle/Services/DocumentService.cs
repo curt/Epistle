@@ -1,23 +1,19 @@
-﻿using Epistle.Models;
-using Microsoft.Extensions.Options;
+﻿using Epistle.ActivityPub;
+using Epistle.Repositories;
 using MongoDB.Driver;
+
+using Object = Epistle.ActivityPub.Object;
 
 namespace Epistle.Services;
 
-public class DocumentService : IDocumentService
+public class DocumentService(IMongoDbRepository repository) : IDocumentService
 {
-    private IMongoCollection<ActivityPub.Object> ObjectsCollection { get; }
+    private readonly IMongoDbRepository _repository = repository
+        ?? throw new ArgumentNullException(nameof(repository));
 
-    public DocumentService(IOptions<DocumentDatabaseSettings> databaseSettings)
-    {
-        var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
-        var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
-        ObjectsCollection = mongoDatabase.GetCollection<ActivityPub.Object>(databaseSettings.Value.ObjectsCollectionName);
-    }
+    public async Task<Object?> GetObjectAsync(Uri uri) =>
+        await Task.Run(() => _repository.FindAllObjects().Where(x => x.Id == uri).FirstOrDefault());
 
-    public async Task<ActivityPub.Object> GetObjectAsync(Uri uri) =>
-        await ObjectsCollection.Find(x => x.Id == uri).FirstOrDefaultAsync();
-
-    public async Task InsertOneObjectAsync(ActivityPub.Object obj) =>
-        await ObjectsCollection.InsertOneAsync(obj);
+    public async Task<Actor?> GetActorAsync(Uri uri) =>
+        await Task.Run(() => _repository.FindAllActors().Where(x => x.Id == uri).FirstOrDefault());
 }

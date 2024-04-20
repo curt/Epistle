@@ -1,7 +1,11 @@
+using Epistle.ActivityPub;
+
+using Object = Epistle.ActivityPub.Object;
+
 namespace Epistle.Services;
 
 public interface IDocumentService
 {
-    public Task<ActivityPub.Object> GetObjectAsync(Uri uri);
-    public Task InsertOneObjectAsync(ActivityPub.Object obj);
+    Task<Object?> GetObjectAsync(Uri uri);
+    Task<Actor?> GetActorAsync(Uri uri);
 }
