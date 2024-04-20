@@ -8,6 +8,7 @@ using MongoDB.Bson.Serialization.Conventions;
 using Epistle;
 using Epistle.Services;
 using Epistle.Repositories;
+using Epistle.ActivityPub;
 
 // Register MongoDB BSON conventions.
 ConventionRegistry.Register(
@@ -20,6 +21,16 @@ ConventionRegistry.Register(
 );
 
 BsonSerializer.RegisterSerializer(new EnumerableTripleBsonSerializer());
+
+BsonClassMap.RegisterClassMap<Core>
+(
+    map =>
+    {
+        map.AutoMap();
+        map.UnmapMember(m => m.JsonLdContext);
+        map.MapExtraElementsMember(m => m.ExtraElements);
+    }
+);
 
 var builder = WebApplication.CreateBuilder(args);
 
