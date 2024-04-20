@@ -1,0 +1,21 @@
+services:
+  store:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: mongodata
+        target: /data/db
+        volume:
+          nocopy: true
+  app:
+    image: epistle
+    build: .
+    restart: unless-stopped
+    environment: { MongoDB__ConnectionString: mongodb://store:27017 }
+    links:
+      - store
+    ports:
+      - "5200:8080"
+volumes:
+  mongodata:
