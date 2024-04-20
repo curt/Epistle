@@ -38,7 +38,12 @@ builder.Services.Configure<MvcRazorRuntimeCompilationOptions>
 (
     options =>
     {
-        options.FileProviders.Insert(0, new EmbeddedFileProvider(Assembly.Load("Epistle.Theme.Default")));
+        var index = 0;
+        var assemblies = builder.Configuration.GetValue<IEnumerable<string>>("Themes:Assemblies")!;
+        foreach (var assembly in assemblies)
+        {
+            options.FileProviders.Insert(index++, new EmbeddedFileProvider(Assembly.Load(assembly)));
+        }
     }
 );
 
