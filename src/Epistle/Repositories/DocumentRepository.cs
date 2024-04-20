@@ -6,11 +6,11 @@ using Object = Epistle.ActivityPub.Object;
 
 namespace Epistle;
 
-public class MongoDbRepository : IMongoDbRepository
+public class DocumentRepository : IDocumentRepository
 {
     private readonly IMongoDatabase _db;
 
-    public MongoDbRepository(IConfiguration configuration)
+    public DocumentRepository(IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(configuration);
 
@@ -27,17 +27,17 @@ public class MongoDbRepository : IMongoDbRepository
             ?? throw new InvalidOperationException("unable to connect to database");
     }
 
-    public IQueryable<Object> FindAllObjects()
+    public IQueryable<Object> ObjectsQueryable()
     {
         return Objects.AsQueryable();
     }
 
-    public IQueryable<Activity> FindAllActivities()
+    public IQueryable<Activity> ActivitiesQueryable()
     {
         return Activities.AsQueryable();
     }
 
-    public IQueryable<Actor> FindAllActors()
+    public IQueryable<Actor> ActorsQueryable()
     {
         return Actors.AsQueryable();
     }

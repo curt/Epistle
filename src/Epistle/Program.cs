@@ -1,12 +1,12 @@
+using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
-using MongoDB.Bson.Serialization.Conventions;
-using Epistle.Models;
-using Epistle.Services;
-using System.Text.Json.Serialization;
-using Epistle;
 using Microsoft.Extensions.FileProviders;
-using System.Reflection;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
+using Epistle;
+using Epistle.Services;
 using Epistle.Repositories;
 
 // Register MongoDB BSON conventions.
@@ -19,6 +19,8 @@ ConventionRegistry.Register(
     t => t.FullName!.StartsWith("Epistle.ActivityPub.")
 );
 
+BsonSerializer.RegisterSerializer(new EnumerableTripleBsonSerializer());
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<MvcRazorRuntimeCompilationOptions>
@@ -29,7 +31,7 @@ builder.Services.Configure<MvcRazorRuntimeCompilationOptions>
     }
 );
 
-builder.Services.AddScoped<IMongoDbRepository, MongoDbRepository>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 // Add services to the container.
