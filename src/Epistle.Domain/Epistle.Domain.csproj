@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Epistle.ActivityPub" Version="0.0.0-alpha.3.g78b9c5e77f" />
+    <PackageReference Include="Epistle.ActivityPub" Version="0.0.0-alpha.4.g38cc8f51d0" />
   </ItemGroup>
 </Project>
