@@ -1,9 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Epistle.ActivityPub;
-
-using Object = Epistle.ActivityPub.Object;
 
 namespace Epistle.Repositories;
 

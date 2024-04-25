@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Epistle.ActivityPub;
-
-using Object = Epistle.ActivityPub.Object;
 
 namespace Epistle.Controllers;
 

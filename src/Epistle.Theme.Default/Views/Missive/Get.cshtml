@@ -1,16 +1,17 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @using System.Globalization
-@model Epistle.ActivityPub.Object
+@model Epistle.Domain.ViewModels.ObjectViewModel
 
 <div>
-    @if (Model.Name is not null)
+    @if (Model.Object.Name is not null)
     {
-        <h1>@Model.Name</h1>
+        <h1>@Model.Object.Name</h1>
     }
-    @Html.Raw(Model.Content)
+    @Html.Raw(Model.Object.Content)
 </div>
 <hr>
 <div>
-    @Model.Published?.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture)
+    <a href=@Model.Actor.Url?.FirstOrDefault()?.Uri>@Model.Actor.Name</a>
+    | @Model.Object.Published?.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture)
     | <a asp-controller="Home" asp-action="Index">Home</a>
 </div>

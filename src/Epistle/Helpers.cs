@@ -1,6 +1,3 @@
-using Epistle.ActivityPub;
-using Microsoft.AspNetCore.Http.Extensions;
-
 namespace Epistle;
 
 public static class Helpers
@@ -32,24 +29,68 @@ public static class Helpers
 
     public static Uri ToPublicUri(this Uri uri, Uri endpoint)
     {
-        var builder = new UriBuilder(uri)
+        if (uri.Host.Equals("internal", StringComparison.OrdinalIgnoreCase))
         {
-            Scheme = endpoint.Scheme,
-            Host = endpoint.Host,
-            Port = endpoint.Port
-        };
-        return builder.Uri;
+            var builder = new UriBuilder(uri)
+            {
+                Scheme = endpoint.Scheme,
+                Host = endpoint.Host,
+                Port = endpoint.Port
+            };
+            return builder.Uri;
+        }
+
+        return uri;
     }
 
-    public static ActivityPub.Object Publicize(this ActivityPub.Object obj, string endpoint)
+    public static IEnumerableTriple ToPublicUri(this IEnumerableTriple triples, Uri endpoint)
+    {
+        var results = new EnumerableTriple();
+
+        foreach (var triple in triples)
+        {
+            results.Add(triple.ToPublicUri(endpoint));
+        }
+
+        return results;
+    }
+
+    public static Triple ToPublicUri(this Triple triple, Uri endpoint)
+    {
+        switch (triple.EntityType)
+        {
+            case TripleEnum.Uri:
+                return new Triple(((Uri)triple.Base!).ToPublicUri(endpoint));
+            case TripleEnum.Link:
+                var link = (Link)triple.Base!;
+                link.Href = link.Href!.ToPublicUri(endpoint);
+                return new Triple(link);
+            case TripleEnum.Object:
+                return new Triple(((Object)triple.Base!).Publicize(endpoint));
+        }
+
+        return triple;
+    }
+
+    public static Object Publicize(this Object obj, string endpoint)
     {
         return obj.Publicize(new Uri(endpoint));
     }
 
-    public static ActivityPub.Object Publicize(this ActivityPub.Object obj, Uri endpoint)
+    public static Object Publicize(this Object obj, Uri endpoint)
     {
         obj.Id = obj.Id?.ToPublicUri(endpoint);
+        obj.AttributedTo = obj.AttributedTo?.ToPublicUri(endpoint);
+
         return obj;
+    }
+
+    public static Actor Publicize(this Actor actor, Uri endpoint)
+    {
+        actor.Id = actor.Id?.ToPublicUri(endpoint);
+        actor.Url = actor.Url?.ToPublicUri(endpoint);
+
+        return actor;
     }
 
     public static Uri ToEndpoint(this HttpRequest request)

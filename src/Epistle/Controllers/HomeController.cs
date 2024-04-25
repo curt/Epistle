@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Epistle.Models;
+using Activity = System.Diagnostics.Activity;
 
 namespace Epistle.Controllers;
 
