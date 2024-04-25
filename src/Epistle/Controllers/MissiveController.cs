@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Epistle.Services;
+using Epistle.Domain.ViewModels;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Epistle.Controllers;
 
@@ -15,8 +17,26 @@ public class MissiveController(IDocumentService documents) : BaseController
     public async Task<IActionResult> Get(string id)
     {
         var uri = Request.ToInternalUri();
-        var model = await documents.GetObjectAsync(uri);
+        var obj = await documents.GetObjectAsync(uri);
 
-        return Contextualize(model);
+        if (obj is not null)
+        {
+            var attributedTo = obj.AttributedTo?.FirstOrDefault()?.Uri;
+
+            if (attributedTo is not null)
+            {
+                var actor = await documents.GetActorAsync(attributedTo);
+
+                if (actor is not null)
+                {
+                    obj = obj.Publicize(Request.ToEndpoint());
+                    actor = actor.Publicize(Request.ToEndpoint());
+                    var model = new ObjectViewModel(obj, actor);
+                    return Contextualize(() => View(model), () => Json(Contextify(obj)));
+                }
+            }
+        }
+
+        return NotFound();
     }
 }

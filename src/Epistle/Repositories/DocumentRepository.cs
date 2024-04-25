@@ -1,8 +1,5 @@
-﻿using Epistle.ActivityPub;
-using Epistle.Repositories;
+﻿using Epistle.Repositories;
 using MongoDB.Driver;
-
-using Object = Epistle.ActivityPub.Object;
 
 namespace Epistle;
 
@@ -46,7 +43,7 @@ public class DocumentRepository : IDocumentRepository
 
     private IMongoCollection<Activity> Activities => GetCollection<Activity>("activities");
 
-    private IMongoCollection<Actor> Actors => GetCollection<Actor>("actor");
+    private IMongoCollection<Actor> Actors => GetCollection<Actor>("actors");
 
     private IMongoCollection<T> GetCollection<T>(string name) =>
         _db.GetCollection<T>(name)

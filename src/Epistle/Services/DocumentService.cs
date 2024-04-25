@@ -1,7 +1,4 @@
-﻿using Epistle.ActivityPub;
-using Epistle.Repositories;
-
-using Object = Epistle.ActivityPub.Object;
+﻿using Epistle.Repositories;
 
 namespace Epistle.Services;
 
