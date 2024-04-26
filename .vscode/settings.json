@@ -4,6 +4,8 @@
         "Bson",
         "Contextify",
         "HSTS",
+        "noarchive",
+        "nofollow",
         "Unmap"
     ]
 }
