@@ -13,9 +13,9 @@ public class RobotsController(IConfiguration config) : ControllerBase
     public IActionResult RobotsTxt()
     {
         var response = new StringBuilder();
-        var arachnophobic = config.GetValue(typeof(bool), "Arachnophobic");
+        var arachnophobic = config.GetValue<bool?>("Arachnophobic") ?? false;
 
-        if (arachnophobic is not null && (bool)arachnophobic)
+        if (arachnophobic)
         {
             response.AppendLine("User-agent: *");
             response.AppendLine("Disallow: / ");
