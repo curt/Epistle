@@ -6,6 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using Epistle;
+using Epistle.Filters;
 using Epistle.Services;
 using Epistle.Repositories;
 using Epistle.ActivityPub;
@@ -62,6 +63,8 @@ builder.Services.AddControllersWithViews
 
         jsonInputFormatter.SupportedMediaTypes.Add("application/ld+json");
         jsonInputFormatter.SupportedMediaTypes.Add("application/activity+json");
+
+        options.Filters.Add<ArachnophobiaAsyncActionFilter>();
     }
 )
 .AddJsonOptions
