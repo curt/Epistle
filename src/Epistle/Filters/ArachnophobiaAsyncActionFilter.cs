@@ -4,12 +4,13 @@ namespace Epistle.Filters;
 
 public class ArachnophobiaAsyncActionFilter(IConfiguration config) : IAsyncActionFilter
 {
+    private bool Arachnophobic => config.GetValue<bool?>("Arachnophobic") ?? false;
+
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         await next();
 
-        var arachnophobic = config.GetValue<bool?>("Arachnophobic") ?? false;
-        if (arachnophobic)
+        if (Arachnophobic)
         {
             var response = context.HttpContext.Response;
             response.Headers.Append("X-Robots-Tag", "noindex, nofollow, noarchive");
