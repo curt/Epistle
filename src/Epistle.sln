@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epistle.Domain", "Epistle.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epistle.Theme.Default", "Epistle.Theme.Default\Epistle.Theme.Default.csproj", "{62CE64B0-467E-4A59-A502-407372FB0076}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epistle.Tests.Unit", "Epistle.Tests.Unit\Epistle.Tests.Unit.csproj", "{A8AC1BDA-6DF4-40FF-B377-FE919B13578B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{62CE64B0-467E-4A59-A502-407372FB0076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62CE64B0-467E-4A59-A502-407372FB0076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62CE64B0-467E-4A59-A502-407372FB0076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8AC1BDA-6DF4-40FF-B377-FE919B13578B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8AC1BDA-6DF4-40FF-B377-FE919B13578B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8AC1BDA-6DF4-40FF-B377-FE919B13578B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8AC1BDA-6DF4-40FF-B377-FE919B13578B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
